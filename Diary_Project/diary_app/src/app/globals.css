@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+@font-face {
+  font-family: "ONE-Mobile-POP";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/ONE-Mobile-POP.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Ownglyph_UNZ-Rg";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/2406-1@1.0/Ownglyph_UNZ-Rg.woff2")
+    format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "GangwonEdu_OTFBoldA";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEdu_OTFBoldA.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.pageWrapper {
+  width: 430px;
+  height: 100%;
+  background-color: bisque;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  /* flex-direction: column;
+  line-height: 1.8; */
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}

@@ -1,0 +1,51 @@
+.title {
+  box-sizing: border-box;
+  font-size: 75px;
+  padding-top: 30%;
+  font-family: "Single Day", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+.page {
+  position: relative;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.8;
+}
+
+.detail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 0.7;
+}
+
+.imgWrapper {
+  transform: rotate(-5deg);
+  padding-right: 15px;
+  transition-duration: 1s;
+}
+
+.imgWrapper:hover {
+  transform: rotate(-10deg);
+}
+
+.btnStart {
+  border: none;
+  font-size: 25px;
+  background: none;
+  width: 230px;
+  height: 60px;
+  transition-duration: 0.3s;
+  padding-top: 10px;
+}
+.btnStart:hover {
+  background-color: rgb(224, 224, 224);
+  border-radius: 30px;
+  padding-bottom: 10px;
+}
+.btnStart:active {
+  width: 210px;
+  height: 57px;
+}

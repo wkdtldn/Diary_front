@@ -1,0 +1,19 @@
+.dateWrapper {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.3;
+}
+
+.year {
+  font-size: 50px;
+  /* color: rgb(167, 164, 171); */
+}
+
+.MonthSelectWrapper {
+  font-size: 33px;
+}
+
+.monthSelector {
+  background: none;
+}
