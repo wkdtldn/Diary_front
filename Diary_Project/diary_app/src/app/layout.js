@@ -1,5 +1,7 @@
 import "./globals.css";
 import styles from "./layout.module.css";
+import { Suspense } from "react";
+import LoadingSpinner from "./components/LoadingSpinner";
 
 export const metadata = {
   title: "Diary App",
@@ -13,7 +15,9 @@ export default function RootLayout({ children }) {
         <title>Diary</title>
       </head>
       <body>
-        <div className="pageWrapper">{children}</div>
+        <div className="pageWrapper">
+          <Suspense fallback={<LoadingSpinner />}>{children}</Suspense>
+        </div>
       </body>
     </html>
   );

@@ -15,7 +15,7 @@ export default function Home() {
       <div className={styles.imgWrapper}>
         <Image src={diaryImage} alt="diary_img" />
       </div>
-      <Link href={{ pathname: "/pages/date" }}>
+      <Link href={{ pathname: "/pages/login" }}>
         <button className={styles.btnStart}>클릭하여 시작</button>
       </Link>
     </div>

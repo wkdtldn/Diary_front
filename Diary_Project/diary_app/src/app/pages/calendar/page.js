@@ -12,8 +12,11 @@ import {
 } from "./styles";
 import moment from "moment";
 import Link from "next/link";
+import useApi from "@/app/hook/useApi";
 
 export default function calendarPage() {
+  const { request } = useApi();
+
   const today = new Date();
   const [value, setValue] = useState(new Date());
   const handleDate = (newDate) => {
@@ -62,7 +65,14 @@ export default function calendarPage() {
 
         <StyledBtnWrite>
           <Link
-            href={{ pathname: "/pages/write" }}
+            href={{
+              pathname: "/pages/write",
+              query: {
+                year: value.getFullYear(),
+                month: value.getMonth() + 1,
+                day: value.getDate(),
+              },
+            }}
             style={{
               width: "100%",
               height: "100%",

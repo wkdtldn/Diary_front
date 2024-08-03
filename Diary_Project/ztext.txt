@@ -1,2 +1,11 @@
 https://velog.io/@hyerani/React-%EC%BA%98%EB%A6%B0%EB%8D%94-%EB%A7%8C%EB%93%A4%EA%B8%B0-react-calendar
 
+https://velog.io/@blackeichi/NextJS-%EB%A7%81%ED%81%AC-%EC%9D%B4%EB%8F%99-%EC%8B%9C-query-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EC%A0%84%EB%8B%AC%ED%95%98%EA%B8%B0
+
+회원가입 : https://velog.io/@hope77/회원가입-기능-구현하기
+
+fetch api : https://velog.io/@jeong_lululala/react-hooks-fetch-api-cors
+
+cors 에러 : https://velog.io/@pengjin/Flask로-알아보는-CORS-에러-해결법
+
+캘린더에 diary데이터 가져올때 사용가능 할듯 :https://snowdeer.github.io/openshift/2020/06/13/react-for-cors-using-proxy/
