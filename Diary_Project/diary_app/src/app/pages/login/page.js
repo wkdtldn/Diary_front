@@ -1,8 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import {
   StyledLoginInputWrapper,
   StyledLoginInputCover,
@@ -10,16 +9,26 @@ import {
   StyledLoginInput,
 } from "./styles";
 import { login } from "@/app/utils/auth";
+import { useRouter } from "next/navigation";
 
-const ConditionalLink = ({ href, children, condition }) => {};
+export function LoginPage() {
+  const router = useRouter();
 
-export function loginPage() {
   const [Username, setUsername] = useState("");
   const [Password, setPassword] = useState("");
   const [Email, setEmail] = useState("");
   const email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
 
-  const [loggedin, setLoggedin] = useState(false);
+  const Login = async () => {
+    if (filterInput()) {
+      const res = await login(Username, Email, Password);
+      if (res.result) {
+        router.push("/pages/calendar");
+      } else {
+        alert(res.msg);
+      }
+    }
+  };
 
   const filterInput = () => {
     if (Username.trim() == "") {
@@ -32,18 +41,6 @@ export function loginPage() {
       return true;
     }
     return false;
-  };
-  const Submit = async (e) => {
-    e.preventDefault();
-    if (filterInput()) {
-      try {
-        await login(Username, Email, Password);
-      } catch (error) {
-        console.log(error);
-      }
-    } else {
-      return false;
-    }
   };
   return (
     <div
@@ -61,7 +58,6 @@ export function loginPage() {
       <StyledLoginInputWrapper>
         <StyledLoginInputCover>
           <StyledLoginInput
-            id="username"
             type="text"
             value={Username}
             onChange={(e) => setUsername(e.target.value)}
@@ -71,7 +67,6 @@ export function loginPage() {
         </StyledLoginInputCover>
         <StyledLoginInputCover>
           <StyledLoginInput
-            id="email"
             type="text"
             value={Email}
             onChange={(e) => setEmail(e.target.value)}
@@ -81,7 +76,6 @@ export function loginPage() {
         </StyledLoginInputCover>
         <StyledLoginInputCover>
           <StyledLoginInput
-            id="password"
             value={Password}
             onChange={(e) => setPassword(e.target.value)}
             type="password"
@@ -93,23 +87,13 @@ export function loginPage() {
         <div
           style={{ position: "relative", width: "100%", marginTop: "1.3rem" }}
         >
-          <StyledLoginBtn type="submit" onClick={() => Submit()}>
-            <Link
-              href={{
-                pathname: "/pages/calendar",
-                query: { user: Username },
-              }}
-              style={{ height: "100%", width: "100%" }}
-            >
-              로그인
-            </Link>
-          </StyledLoginBtn>
+          <StyledLoginBtn onClick={Login}>로그인</StyledLoginBtn>
         </div>
       </StyledLoginInputWrapper>
       <div
         style={{
           width: "330px",
-          marginTop: "2.3rem",
+          marginTop: "3rem",
           textDecoration: "underline",
           textDecorationThickness: "1.7px",
           fontSize: "0.85rem",
@@ -119,9 +103,7 @@ export function loginPage() {
         }}
       >
         <div style={{ marginRight: "12px" }}>
-          <Link href={{ pathname: "/pages/signup" }} passHref>
-            회원가입
-          </Link>
+          <Link href={{ pathname: "/pages/signup" }}>회원가입</Link>
         </div>
         <div>
           <Link href={{ pathname: "/pages/find/user" }}>
@@ -133,4 +115,4 @@ export function loginPage() {
   );
 }
 
-export default loginPage;
+export default LoginPage;

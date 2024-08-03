@@ -1,28 +1,28 @@
-import React from "react";
+import axios from "axios";
+import axiosInstance from "./axiosSet";
 
-export const login = async (username, email, password) => {
-  try {
-    const response = await fetch("http://127.0.0.1:8080/login", {
-      method: "POST",
-      body: JSON.stringify({
-        username: username,
-        email: email,
-        password: password,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
-    });
-
-    if (!response.result) throw new Error("Login failed");
-
-    const data = await response.json();
-    localStorage.setItem("access_token", data.access_token);
-    localStorage.setItem("refresh_token", data.refresh_token);
-  } catch (error) {
-    throw new Error(error.message);
+const login = async (username, email, password) => {
+  const data = { username: username, email: email, password: password };
+  const response = await axiosInstance
+    .post("/login", data)
+    .catch((error) => console.log(error));
+  if (response.data.result) {
+    onLoginSuccess(response);
   }
+  return response.data;
 };
 
-export default login;
+const onSilentRefresh = () => {
+  axiosInstance
+    .post("/refresh", data)
+    .then(onLoginSuccess)
+    .catch((error) => console.log(error));
+};
+
+const onLoginSuccess = (response) => {
+  const accessToken = response.data.access_token;
+  axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+  console.log(axios.defaults.headers.common.Authorization);
+};
+
+export { login, onSilentRefresh };

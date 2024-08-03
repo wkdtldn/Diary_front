@@ -2,10 +2,7 @@ import styled from "styled-components";
 
 export const StyledLoginInputWrapper = styled.div`
   width: 330px;
-  height: 300px;
-  border: 1px solid black;
-  border-radius: 12px;
-  background-color: rgb(237, 243, 246);
+  height: 275px;
   margin: 2rem 0 0 0;
   padding: 0 0 1rem 0;
   display: flex;
@@ -39,14 +36,13 @@ export const StyledLoginInputCover = styled.div`
 export const StyledLoginInput = styled.input`
   width: 270px;
   height: 45px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   background: none;
   border-width: 0 0 2px;
   border-color: black;
   outline: none;
   font-size: 0.95rem;
 `;
-
 export const StyledLoginBtn = styled.button`
   width: 65px;
   height: 35px;

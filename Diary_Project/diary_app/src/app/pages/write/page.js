@@ -1,20 +1,39 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyledTitleInput,
   StyledTitleWrapper,
   StyledDetialInput,
   StyledBtnSave,
 } from "./styles";
-import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import axiosInstance from "@/app/utils/axiosSet";
+import { useRouter } from "next/navigation";
+import axios from "axios";
 
 export default function write() {
+  const router = useRouter();
+
+  const [title, setTitle] = useState("");
+  const [detail, setDetail] = useState("");
   const params = useSearchParams();
   let year = params.get("year");
   let month = params.get("month");
   let day = params.get("day");
+
+  const saveDiary = () => {
+    let date =
+      year +
+      (month.length === 1 ? "0" + month : month) +
+      (day.length === 1 ? "0" + day : day);
+    const data = { title: title, detail: detail, date: date };
+    console.log(data);
+    axiosInstance.post("/diary/add", data);
+    console.log(axios.defaults.headers.common.Authorization);
+    router.push("/pages/calendar");
+  };
+
   return (
     <div
       style={{
@@ -48,6 +67,8 @@ export default function write() {
         </span>
         <StyledTitleInput
           id="title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
           placeholder="일기 제목을 입력해주세요!"
         ></StyledTitleInput>
       </StyledTitleWrapper>
@@ -63,23 +84,16 @@ export default function write() {
           textAlign: "left",
         }}
       >
-        <StyledDetialInput id="detail" type="text"></StyledDetialInput>
+        <StyledDetialInput
+          id="detail"
+          type="text"
+          placeholder="당신만의 이야기를 들려주세요."
+          value={detail}
+          onChange={(e) => setDetail(e.target.value)}
+        ></StyledDetialInput>
         <br />
         <div style={{ position: "relative", width: "360px" }}>
-          <StyledBtnSave>
-            <Link
-              href={{ pathname: "/pages/calendar" }}
-              style={{
-                width: "100%",
-                height: "100%",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              기록하기
-            </Link>
-          </StyledBtnSave>
+          <StyledBtnSave onClick={saveDiary}>기록하기</StyledBtnSave>
         </div>
       </div>
     </div>

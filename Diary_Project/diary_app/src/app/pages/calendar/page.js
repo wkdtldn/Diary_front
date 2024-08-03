@@ -12,11 +12,8 @@ import {
 } from "./styles";
 import moment from "moment";
 import Link from "next/link";
-import useApi from "@/app/hook/useApi";
 
 export default function calendarPage() {
-  const { request } = useApi();
-
   const today = new Date();
   const [value, setValue] = useState(new Date());
   const handleDate = (newDate) => {

@@ -24,7 +24,7 @@ app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(minutes=1)
 app.config["JWT_REFRESH_TOKEN_EXPIRES"] = timedelta(days=1)
 jwt = JWTManager(app)
 
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}})
 app.config["CORS_HEADERS"] = "Content-Type"
 
 
@@ -66,15 +66,15 @@ class Sentiment_Analysis(db.Model):
 # User ---
 @app.route("/register", methods=["POST"])
 def register():
-    data = request.get_json()
+    data = request.json
     username = data["username"]
     email = data["email"]
     password = data["password"]
-    user = User.query.filter_by(username=username).first()
+    user = User.query.ilter_by(username=username).first()
 
     if not user:
-        user = User(username=username, email=email, password=password)
-        db.session.add(user)
+        new_user = User(username=username, email=email, password=password)
+        db.session.add(new_user)
         db.session.commit()
         return jsonify(True)
     return jsonify(False), 401
@@ -82,7 +82,8 @@ def register():
 
 @app.route("/login", methods=["POST"])
 def login():
-    data = request.get_json()
+    data = request.json
+    print(data)
     username = data["username"]
     email = data["email"]
     password = data["password"]
@@ -100,27 +101,26 @@ def login():
                         "refresh_token": refresh_token,
                     }
                 )
-            return (
-                json.dumps(
-                    {
-                        "result": False,
-                        "msg": "비밀번호가 잘못되었습니다. 다시 시도해주세요.",
-                    }
-                ),
-                401,
+            return json.dumps(
+                {
+                    "result": False,
+                    "msg": "비밀번호가 잘못되었습니다. 다시 시도해주세요.",
+                },
+                ensure_ascii=False,
             )
 
-        return (
-            json.dumps(
-                {"result": False, "msg": "이메일이 잘못되었습니다. 다시 시도해주세요."}
-            ),
-            401,
+        return json.dumps(
+            {"result": False, "msg": "이메일이 잘못되었습니다. 다시 시도해주세요."},
+            ensure_ascii=False,
         )
 
-    return json.dumps({"result": False, "msg": "존재하지 않는 아이디입니다."}), 401
+    return json.dumps(
+        {"result": False, "msg": "존재하지 않는 아이디입니다."},
+        ensure_ascii=False,
+    )
 
 
-@app.route("/delete_user", methods=["GET"])
+@app.route("/api/delete_user", methods=["GET"])
 def __delete__():
     try:
         deleted_users = db.session.query(User).delete()
@@ -135,6 +135,25 @@ def __delete__():
         return {"error": str(e)}
 
 
+# Diary ---
+@app.route("/diary/add", methods=["POST"])
+@jwt_required()
+def add():
+    data = request.json
+    title = data["title"]
+    detail = data["detail"]
+    date = data["date"]
+
+    username = get_jwt_identity()
+    user = User.query.filter_by(username=username).first()
+    userid = user.id
+
+    new_diary = Diary(user_id=userid, title=title, detail=detail, date=date)
+    db.session.add(new_diary)
+    db.session.commit()
+
+
+# JWT ---
 @app.route("/protected", methods=["GET"])
 @jwt_required()
 def protected():

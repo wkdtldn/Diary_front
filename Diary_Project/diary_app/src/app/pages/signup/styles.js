@@ -3,9 +3,6 @@ import styled from "styled-components";
 export const StyledSignupInputWrapper = styled.div`
   width: 330px;
   height: 350px;
-  border: 1px solid black;
-  border-radius: 12px;
-  background-color: rgb(237, 243, 246);
   margin: 2rem 0 0 0;
   padding: 0 0 1rem 0;
   display: flex;
@@ -39,7 +36,7 @@ export const StyledSignupInputCover = styled.div`
 export const StyledSignupInput = styled.input`
   width: 270px;
   height: 45px;
-  margin-bottom: 10px;
+  margin-bottom: 17px;
   background: none;
   border-width: 0 0 2px;
   border-color: black;

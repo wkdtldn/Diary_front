@@ -8,9 +8,13 @@ import {
   StyledSignupBtn,
   StyledSignupInput,
 } from "./styles";
+import { useRouter } from "next/navigation";
+import axiosInstance from "@/app/utils/axiosSet";
 
 export default function signupPage() {
-  const [Username, setUsername] = useState();
+  const router = useRouter();
+
+  const [Username, setUsername] = useState("");
   const [Password, setPassword] = useState("");
   const [Email, setEmail] = useState("");
   const email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
@@ -23,10 +27,6 @@ export default function signupPage() {
       : Password === CheckPassword
       ? true
       : false;
-
-  useEffect(() => {
-    console.log(Username, Password, Email);
-  });
 
   const filterInput = () => {
     var essential_words = /[!@#^*?.]/gi;
@@ -50,22 +50,16 @@ export default function signupPage() {
   };
   const signup = () => {
     if (filterInput) {
-      fetch("http://127.0.0.1:8080/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-        },
-        body: JSON.stringify({
-          username: Username,
-          email: Email,
-          password: Password,
-        }),
-      })
-        .then((response) => response.json())
-        .then((data) =>
-          data === true
-            ? true
+      const data = {
+        username: Username,
+        email: Email,
+        password: Password,
+      };
+      axiosInstance
+        .post("/register", data)
+        .then((res) =>
+          res.data
+            ? router.push("/pages/login")
             : alert(
                 `"${Username}" 라는 이름의 계정이 존재합니다. 다시 시도해주세요.`
               )
@@ -88,7 +82,6 @@ export default function signupPage() {
       <StyledSignupInputWrapper>
         <StyledSignupInputCover>
           <StyledSignupInput
-            id="username"
             type="text"
             value={Username}
             onChange={(e) => setUsername(e.target.value)}
@@ -98,7 +91,6 @@ export default function signupPage() {
         </StyledSignupInputCover>
         <StyledSignupInputCover>
           <StyledSignupInput
-            id="email"
             type="text"
             value={Email}
             onChange={(e) => setEmail(e.target.value)}
@@ -108,7 +100,6 @@ export default function signupPage() {
         </StyledSignupInputCover>
         <StyledSignupInputCover>
           <StyledSignupInput
-            id="password"
             type="password"
             value={Password}
             onChange={(e) => setPassword(e.target.value)}
@@ -118,7 +109,6 @@ export default function signupPage() {
         </StyledSignupInputCover>
         <StyledSignupInputCover>
           <StyledSignupInput
-            id="passwordCheck"
             type="password"
             value={CheckPassword}
             onChange={(e) => setCheckPassword(e.target.value)}
@@ -147,20 +137,15 @@ export default function signupPage() {
         <div
           style={{ position: "relative", width: "100%", marginTop: "1.3rem" }}
         >
-          <StyledSignupBtn id="signup" onClick={() => signup()}>
-            <Link
-              href={{ pathname: "/pages/login" }}
-              style={{ height: "100%", width: "100%" }}
-            >
-              회원가입
-            </Link>
+          <StyledSignupBtn id="signup" onClick={signup}>
+            회원가입
           </StyledSignupBtn>
         </div>
       </StyledSignupInputWrapper>
       <div
         style={{
           width: "330px",
-          marginTop: "2.3rem",
+          marginTop: "3rem",
           textDecoration: "underline",
           textDecorationThickness: "1.7px",
           fontSize: "0.85rem",
