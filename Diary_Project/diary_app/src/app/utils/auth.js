@@ -21,8 +21,9 @@ const onSilentRefresh = () => {
 
 const onLoginSuccess = (response) => {
   const accessToken = response.data.access_token;
-  axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
-  console.log(axios.defaults.headers.common.Authorization);
+  axiosInstance.defaults.headers.common[
+    "Authorization"
+  ] = `Bearer ${accessToken}`;
 };
 
 export { login, onSilentRefresh };

@@ -46,7 +46,6 @@ class Diary(db.Model):
     title = db.Column(db.String(255), nullable=False)
     detail = db.Column(db.Text(), nullable=False)
     date = db.Column(db.Text(), nullable=False)
-    time = db.Column(db.Text(), nullable=False)
 
     user = db.relationship("User")
 
@@ -70,7 +69,7 @@ def register():
     username = data["username"]
     email = data["email"]
     password = data["password"]
-    user = User.query.ilter_by(username=username).first()
+    user = User.query.filter_by(username=username).first()
 
     if not user:
         new_user = User(username=username, email=email, password=password)
@@ -120,8 +119,8 @@ def login():
     )
 
 
-@app.route("/api/delete_user", methods=["GET"])
-def __delete__():
+@app.route("/delete_user", methods=["GET"])
+def delete_user():
     try:
         deleted_users = db.session.query(User).delete()
         db.session.commit()
@@ -151,6 +150,35 @@ def add():
     new_diary = Diary(user_id=userid, title=title, detail=detail, date=date)
     db.session.add(new_diary)
     db.session.commit()
+    return jsonify(True)
+
+
+@app.route("/delete_diary", methods=["GET"])
+def delete_diary():
+    try:
+        deleted_diarys = db.session.query(Diary).delete()
+        db.session.commit()
+
+        db.session.execute(text("ALTER TABLE diary AUTO_INCREMENT = 1"))
+        db.session.commit()
+
+        return {"msg": f"{deleted_diarys} users have been deleted"}
+    except Exception as e:
+        db.session.rollback()
+        return {"error": str(e)}
+
+
+@app.route("/diary/all/date", methods=["GET"])
+def get_diary_all():
+    diarys = Diary.query.all()
+
+    diary_list = []
+
+    if diarys:
+        for diary in diarys:
+            diary_list.append(diary.date)
+
+    return jsonify(diary_list)
 
 
 # JWT ---

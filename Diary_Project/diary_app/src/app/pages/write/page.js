@@ -25,12 +25,12 @@ export default function write() {
   const saveDiary = () => {
     let date =
       year +
+      "-" +
       (month.length === 1 ? "0" + month : month) +
+      "-" +
       (day.length === 1 ? "0" + day : day);
     const data = { title: title, detail: detail, date: date };
-    console.log(data);
     axiosInstance.post("/diary/add", data);
-    console.log(axios.defaults.headers.common.Authorization);
     router.push("/pages/calendar");
   };
 

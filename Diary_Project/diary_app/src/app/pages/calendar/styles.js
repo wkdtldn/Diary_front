@@ -160,3 +160,46 @@ export const StyledBtnWrite = styled.button`
   border: none;
   box-shadow: 4px 2px 10px 0px rgba(0, 0, 0, 0.13);
 `;
+
+export const ContentWrapper = styled.div`
+  width: 98%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+export const Line = styled.div`
+  width: 100%;
+  height: 1.5px;
+  background-color: #9e9e9e;
+  border-radius: 50px;
+  position: relative;
+`;
+
+export const Content = styled.div`
+  height: 60px;
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+`;
+
+export const Time = styled.div`
+  display: flex;
+  margin-left: 5px;
+  margin-top: 3px;
+  align-items: center;
+`;
+
+export const DateText = styled.span`
+  font-size: 11px;
+  font-weight: bold;
+  padding-right: 5px;
+`;
+
+export const WeekText = styled.span`
+  font-size: 11px;
+  font-weight: bold;
+  color: #918f8e;
+`;

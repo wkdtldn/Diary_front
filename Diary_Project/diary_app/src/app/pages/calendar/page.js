@@ -9,9 +9,16 @@ import {
   StyledBtnWrapper,
   StyledDot,
   StyledToday,
+  ContentWrapper,
+  Line,
+  Content,
+  DateText,
+  Time,
+  WeekText,
 } from "./styles";
 import moment from "moment";
 import Link from "next/link";
+import axiosInstance from "@/app/utils/axiosSet";
 
 export default function calendarPage() {
   const today = new Date();
@@ -19,8 +26,25 @@ export default function calendarPage() {
   const handleDate = (newDate) => {
     setValue(newDate);
   };
+  const [diaryDate, setDiaryDate] = useState([]);
+
+  // useEffect(() => {
+  //   axiosInstance
+  //     .get("/diary/all/date")
+  //     .then((res) => setDiaryDate(res.data))
+  //     .catch((error) => console.log(error));
+  // }, []);
+
   return (
-    <div>
+    <div
+      style={{
+        height: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexDirection: "column",
+      }}
+    >
       <StyledCalendarWrapper>
         <StyledCalendar
           locale="ko"
@@ -40,11 +64,40 @@ export default function calendarPage() {
             ) {
               return <StyledToday key={"today"}>오늘</StyledToday>;
             }
+            // if (diaryDate[0]) {
+            //   if (
+            //     diaryDate.find((x) => x === moment(date).format("YYYY-MM-DD"))
+            //   ) {
+            //     return <StyledDot></StyledDot>;
+            //   }
+            // }
           }}
         />
       </StyledCalendarWrapper>
       <br />
-      <StyledBtnWrapper>
+      <div
+        style={{
+          width: "100%",
+          height: "auto",
+          overflow: "scroll",
+          display: "flex",
+          alignItems: "center",
+          flexDirection: "column",
+        }}
+      >
+        <ContentWrapper>
+          <Line></Line>
+          {/* 여기부터 map 함수로 반복할 예정 */}
+          <Content>
+            <Time>
+              <DateText>8월 12일</DateText>
+              <WeekText>금요일</WeekText>
+            </Time>
+          </Content>
+          <Line></Line>
+        </ContentWrapper>
+      </div>
+      {/* <StyledBtnWrapper>
         <StyledBtnDetail>
           <Link
             href={{ pathname: "/pages/detail" }}
@@ -81,7 +134,7 @@ export default function calendarPage() {
             일기 쓰기
           </Link>
         </StyledBtnWrite>
-      </StyledBtnWrapper>
+      </StyledBtnWrapper> */}
     </div>
   );
 }
